@@ -1,0 +1,31 @@
+
+ fieldset{
+
+   margin-top:-10px;
+   margin-left:250px;
+   margin-bottom:30px;
+   width:500px;
+
+  border-color:#FFE1E1;
+  
+ }
+  h2{
+  margin-top:0px;
+  margin-left:350px;
+  font-size: large;
+  font-family:  Verdana, Geneva, sans-serif;
+  text-shadow:2px 3px 10px red;
+  color: #000066;
+  }
+  #coordonee span{
+    position:absolute;
+    left:650px;
+  }
+  #coordonee {
+
+    height:390px;
+  }
+
+ 
+
+

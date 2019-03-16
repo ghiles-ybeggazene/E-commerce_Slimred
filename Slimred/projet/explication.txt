@@ -1,0 +1,71 @@
+Tuto caddie virtuel et DB (sql) - part.3
+
+* Notez que ce tuto est compatible avec php > 4.2 , vous saurez modifier les scripts en fonction de votre version php.
+je vous rappelle juste que les variables provenant d'un formulaire en métode 'post', se récupèreront à partir de php > 4.2 de la forme suivante $_POST['variable'] et non plus $variable.
+Panier4_3.php == le Caddie
+
+Cette page est celle de l'affichage du caddie, depuis laquelle on pourra en modifier, éliminer des lignes de commandes.
+
+Script du Caddie :
+<?session_start();
+if( isset($_SESSION['panier'])){
+$panier = $_SESSION['panier'];
+$tot=0;// initialisation du total.
+?>//entête du tableau du caddie
+<div align="center"><H2>Votre Caddie</H2></div>
+<table border="1" align="center" bgcolor="cccccc" width="50%">
+<tr bgcolor='white'>
+<td width="">Produit</td>
+<td width="">Quantité</td>
+<td width="">Px Unité</td>
+<td width="">Total </td>
+<td width="">&nbsp;</td>	
+</tr>
+// le caddie sera dans un formulaire pour pouvoir réaliser des changements.
+<form method="POST" action="Panier4_2.php">
+<? // connexion à votre base
+require('inc_connect.php');
+// on passe tous les paniers en revue par une boucle foreach
+foreach ($panier as $valeur=>$cde){//$valeur est l'ID de la fleur et $cde sa quantité dans le panier
+$sql="select * from fleuriste where id='$valeur'";
+$req=mysql_query($sql,$connexion)or exit ('Erreur SQL !'.$sql.'<br>'.mysql_error());
+while( $data=mysql_fetch_array($req) ){
+$nom=$data['nom'];//nom de la fleur
+$prix=$data['prix'];// prix unitaire de la fleur
+$pxligne=$prix*$cde; //prix pour la ligne de commande
+$tot+=$pxligne;//valorisation du total général
+echo"<tr><td>$nom</td><td>$cde</td><td>$prix</td><td align='right'>number_format($pxligne, 2,'.',' ')</td><td><input type='checkbox' name='case[]' value='".$data['id']."'></td></tr>";
+}
+}
+echo"<tr><td colspan='3' align='right'>Total Commandé...</td><td align='right'>number_format($tot, 2,'.',' ')</td></tr>";
+mysql_close();}
+?>
+<tr bgcolor='white'>
+<td colspan="5" align="right"><input type="submit" name="action" value="Eliminer">&nbsp;&nbsp;&nbsp;<input type="submit" name="action" value="Changer"></td></tr></table>
+</form>
+<br><br><a href="Panier4_1.php">Retour à la Boutique</a>
+
+
+Explications :
+Nous récupérons notre caddie dans la variable de session Panier: $_SESSION['panier'], puis cette dernière étant un tableau (array) , nous allons grâce à une boucle foreach parcourir les indices :$valeur ce qui correspondra aux id des fleurs mises dans le panier et les valeurs: $cde qui correspond au nombre de fleur dans chaque panier.
+Nous interrogeons la table sur chaque id de fleur mise dans le panier pour en connaitre le nom et le prix unitaire.
+Nous avons donc désormais tous les éléments pour pouvoir afficher notre caddie.
+Nous avons dès le début du script initialisé le total général ($tot) à 0 et lui ajoutons le prix de chaque ligne dans notre boucle foreach.
+Pour ce faire nous calculons au préalable le prix de chaque commande : Prix Unitaire x Nombre de fleur soit :
+$pxligne=$prix*$cde; .
+Nous aurions pu inclure une ligne tva pour chaque fleur ou pour le total général, à vous de le faire !
+Notons la dernière colonne de ce tableau qui corespond à une case à cocher ayant comme 'name' l'id de la fleur et qui permettra les changements ou suppressions des données de notre caddie. Nous avons également utilisé la fonction number_format() pour avoir des résultats 2 chiffres après la virgule : exple 1 245.52
+
+Voilà, notre caddie est bel et bien fonctionnel, vous pouvez le tester... 
+Bien-sûr le design reste à désirer !! donc à vous de travailler, de l'adapter, inclure tva, frais de transport, remise,.... et bon courage.
+
+<< Panier4_1.php == la Boutique    << Panier4_2.php == le Traitement
+Si des doutes persistent, des questions spécifiques, des petits problèmes de mise en place, n'hésitez pas à consulter le forum référence en php :
+www.AllHtml.com 
+
+Tutos:
+Cases à cocher   Tronquer un texte  	 Moteur de recherche    Tableau (Array) et boucles    Caddie virtuel    Calendrier    
+
+Notes: 
+Notez que de toute façon ces scripts ne sont qu'à titre d'exemples et n'en sont donc que trés partiels, il vous faudra bien-sûr les intégrer dans l'environnement de votre page, de votre site, mais la méthode est là et elle fonctionne.
+Autre point important, ces morceaux de scripts notament, lorsqu'il y a connexion à votre base de données, ne font aucune référence à certains problèmes de sécurité. 

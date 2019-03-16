@@ -1,0 +1,76 @@
+#pseudo{
+border-radius: 20px;}
+#p1{
+border-radius: 20px;}
+
+legend, input, button, select
+{
+    margin-right: 50;
+margin: .25em auto;
+}
+input, button, select
+{
+display: block;
+font-size: 2em
+}
+label
+{
+display: block;
+
+font-style: italic;
+text-align: center;
+}
+input, select
+{
+    width: 35%;
+    text-align: center;
+    padding: 0px;
+    transition: border 2s
+}
+input, select:focus
+{
+    border: 2px darkslategrey solid;
+}
+button
+{
+    background-color:blue;
+    text-decoration-color: crimson;
+    color: white;
+    padding: .5em;
+    font-weight: bold;
+    transition: background-color 0.5s;
+    border-radius: .9em;
+}
+#gool{
+ color: blue;
+
+    
+}
+.ff{
+border: 1px solid black;
+}
+button:hover
+{
+background-color: blue;
+color: black;
+}
+.yes
+{
+text-align: center;
+color: black;
+background-color: white;
+font-weight: bolder;
+width: 50%;
+margin: 0 auto
+}
+
+/* maintenant, on prépare une classe qu'on va utiliser pour cacher des éléments du DOM */
+/* Utilisez cette astuce et évitez le innerHTML pour des raisons de performances (pour éviter la reconstruction du DOM) */
+.no
+{
+display: none
+}
+
+.formulaire {
+  padding: 0px 0px 0px 0px;
+}
